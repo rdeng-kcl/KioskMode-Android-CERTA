@@ -5,6 +5,13 @@ Screen Pinning Android Lollipop without Rooting
 
     adb shell dpm set-device-owner net.derohimat.kioskmodesample/.AdminReceiver
 
+### Reset Admin open CMD w/ android:testOnly="true"
+
+    adb shell dpm remove-active-admin net.derohimat.kioskmodesample/.AdminReceiver
+
+    android:lockTaskMode="if_whitelisted"
+    android:testOnly="true"
+
 ### If you want allow some apps
 thanks for [yurik94](https://github.com/yurik94)
 
