@@ -16,6 +16,11 @@ public class BaseActivity extends AppCompatActivity {
     protected View mDecorView;
     protected DevicePolicyManager mDpm;
 
+    private static final String SONON_NEW_APP = "com.healcerion.moana.us";
+    private static final String CERTA_APP = "com.example.certa";
+    private static final String SETTING_APP = "com.android.settings";
+    private static final String SAMSUNG_HOME = "com.sec.android.app.launcher";
+
     protected void setUpAdmin() {
         if (!KioskModeApp.isInLockMode()) {
             ComponentName deviceAdmin = new ComponentName(this, AdminReceiver.class);
@@ -25,7 +30,9 @@ public class BaseActivity extends AppCompatActivity {
             }
 
             if (mDpm.isDeviceOwnerApp(getPackageName())) {
-                mDpm.setLockTaskPackages(deviceAdmin, new String[]{getPackageName()});
+                mDpm.setLockTaskPackages(deviceAdmin, new String[]{getPackageName(), SONON_NEW_APP, CERTA_APP, SAMSUNG_HOME});
+//              mDpm.setLockTaskFeatures(deviceAdmin, DevicePolicyManager.LOCK_TASK_FEATURE_NONE);
+                mDpm.setLockTaskFeatures(deviceAdmin, DevicePolicyManager.LOCK_TASK_FEATURE_HOME | DevicePolicyManager.LOCK_TASK_FEATURE_OVERVIEW);
             } else {
                 Log.e("Kiosk Mode Error", getString(R.string.not_device_owner));
             }
