@@ -4,6 +4,8 @@ import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Context;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.os.Build;
 import android.util.Log;
 import android.view.View;
 
@@ -30,9 +32,13 @@ public class BaseActivity extends AppCompatActivity {
             }
 
             if (mDpm.isDeviceOwnerApp(getPackageName())) {
-                mDpm.setLockTaskPackages(deviceAdmin, new String[]{getPackageName(), SONON_NEW_APP, CERTA_APP, SAMSUNG_HOME});
-//              mDpm.setLockTaskFeatures(deviceAdmin, DevicePolicyManager.LOCK_TASK_FEATURE_NONE);
-                mDpm.setLockTaskFeatures(deviceAdmin, DevicePolicyManager.LOCK_TASK_FEATURE_HOME | DevicePolicyManager.LOCK_TASK_FEATURE_OVERVIEW);
+                mDpm.setLockTaskPackages(deviceAdmin, new String[]{getPackageName(), SONON_NEW_APP, CERTA_APP});
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                    mDpm.setLockTaskFeatures(deviceAdmin, DevicePolicyManager.LOCK_TASK_FEATURE_GLOBAL_ACTIONS | DevicePolicyManager.LOCK_TASK_FEATURE_KEYGUARD);
+//                    mDpm.setLockTaskFeatures(deviceAdmin, DevicePolicyManager.LOCK_TASK_FEATURE_NONE);
+//                    mDpm.setLockTaskFeatures(deviceAdmin, DevicePolicyManager.LOCK_TASK_FEATURE_HOME | DevicePolicyManager.LOCK_TASK_FEATURE_OVERVIEW);
+                }
+
             } else {
                 Log.e("Kiosk Mode Error", getString(R.string.not_device_owner));
             }
